@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/panda/myfolder/wholebodycontrol/17-LQR-DART/3dof.cpp" "/home/panda/myfolder/wholebodycontrol/17-LQR-DART/build/CMakeFiles/3dof.dir/3dof.cpp.o"
+  "/home/krang/dart/17-LQR-DART/3dof.cpp" "/home/krang/dart/17-LQR-DART/build/CMakeFiles/3dof.dir/3dof.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

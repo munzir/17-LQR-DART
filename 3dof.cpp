@@ -171,40 +171,23 @@ SkeletonPtr create3DOF_URDF()
   // Load the Skeleton from a file
   dart::utils::DartLoader loader;
   SkeletonPtr threeDOF = 
-      loader.parseSkeleton("/home/panda/myfolder/OnlineCoM/CS8803_STR/Final/dart/wip/3DOF-WIP/3dof.urdf");
+      loader.parseSkeleton("/home/krang/dart/09-URDF/3DOF-WIP/3dof.urdf");
       //loader.parseSkeleton("/home/panda/myfolder/wholebodycontrol/09-URDF/3DOF-WIP/3dof.urdf");
   threeDOF->setName("m3DOF");
+
+  // Set the body inertia to a sensible value
   SkeletonPtr krangFixedWheel =
-      loader.parseSkeleton("/home/panda/myfolder/wholebodycontrol/09-URDF/KrangFixedWheels/krang_fixed_wheel.urdf");
+      loader.parseSkeleton("/home/krang/dart/09-URDF/KrangFixedWheels/krang_fixed_wheel.urdf");
   krangFixedWheel->setName("m18DOF");
   Eigen::Matrix<double, 18, 1> qInit;
-  qInit << M_PI/4, -4.588, 0.0, 0.0, 0.0548, -1.0253, 0.0, -2.1244, -1.0472, 1.5671, 0.0, -0.0548, 1.0253, 0.0, 2.1244, 1.0472, 0.0037, 0.0;
+  qInit << -M_PI/4, -4.588, 0.0, 0.0, 0.0548, -1.0253, 0.0, -2.1244, -1.0472, 1.5671, 0.0, -0.0548, 1.0253, 0.0, 2.1244, 1.0472, 0.0037, 0.0;
   krangFixedWheel->setPositions(qInit);
-  dart::math::Inertia artI;
-  artI = krangFixedWheel->getBodyNode("Base")->getArticulatedInertia();
-  double m = krangFixedWheel->getMass(); cout << "mass: " << m << endl;
-  Eigen::Vector3d com = krangFixedWheel->getCOM(); cout << "com: " << com(0) << ", " << com(1) << ", " << com(2) << endl;
-  cout << setprecision(3) << "artI: " << artI.rows() << " x " << artI.cols() << endl;
-  for(int i=0; i<6; i++) { for(int j=0; j<6; j++) { cout << artI(i,j) << ",\t"; } cout << endl;}
-  Eigen::Transform<double, 3, Eigen::Affine> Tf = krangFixedWheel->getBodyNode("Base")->getTransform();
-  Eigen::Matrix<double, 6, 6> rot6;
-  rot6 << Tf.rotation(), Eigen::Matrix<double, 3, 3>::Zero(),
-  Eigen::Matrix<double, 3, 3>::Zero(), Tf.rotation();
-  dart::math::Inertia artIrot;
-  artIrot = rot6*artI;
-  cout << "rot6: " << rot6.rows() << " x " << rot6.cols() << endl;
-  for(int i=0; i<6; i++) { for(int j=0; j<6; j++) { cout << rot6(i,j) << ",\t"; } cout << endl;}
-  cout << "artIrot: " << artIrot.rows() << " x " << artIrot.cols() << endl;
-  for(int i=0; i<6; i++) { for(int j=0; j<6; j++) { cout << artIrot(i,j) << ",\t"; } cout << endl;}
-  dart::math::Inertia artIimp;
-  artI = krangFixedWheel->getBodyNode("Base")->getArticulatedInertiaImplicit();
-  cout << "artIimp: " << artIimp.rows() << " x " << artIimp.cols() << endl;
-  for(int i=0; i<6; i++) { for(int j=0; j<6; j++) { cout << artIimp(i,j) << ",\t"; } cout << endl;}
-  
-//  threeDOF->getBodyNode("LWheel")->setFrictionCoeff(1e16);
-//  threeDOF->getBodyNode("RWheel")->setFrictionCoeff(1e16);
-//  threeDOF->getJoint(0)->setDampingCoefficient(0, 1.0);
-//  threeDOF->getJoint(1)->setDampingCoefficient(0, 1.0);
+  int nBodies = krangFixedWheel->getNumBodyNodes();
+  for(int i=0; i<nBodies; i++){
+    dart::dynamics::BodyNode* body= krangFixedWheel->getBodyNode(i);
+    std::cout << body->getName() << std::endl;
+  }
+
   
   // Get it into a useful configuration
   double psiInit = M_PI/4, qBody1Init = M_PI/6;
