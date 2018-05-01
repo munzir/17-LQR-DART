@@ -1,4 +1,4 @@
-# Install script for directory: /home/panda/myfolder/wholebodycontrol/17-LQR-DART
+# Install script for directory: /home/krang/dart/17-LQR-DART
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/panda/myfolder/wholebodycontrol/17-LQR-DART/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/krang/dart/17-LQR-DART/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
